@@ -1,0 +1,10 @@
+{
+    "cSpell.words": [
+        "TOIDO"
+    ],
+    "files.associations": {
+        "font.h": "c",
+        "color.h": "c",
+        "stdbool.h": "c"
+    }
+}
