@@ -1,19 +1,21 @@
-#include <stdio.h>
-#include "../Include/GUI/Font.h"
+#include "../Include/GUI/Components/Window.h"
+#include "../Include/Bool.h"
 
 int main()
 {
 
-    Color TextColor;
-    InitializeColor(&TextColor, 255, 50, 25);
+    Window MainWindow;
+    InitializeWindow(&MainWindow, "Toido", 720, 480);
+    DisplayWindow(&MainWindow, true);
 
-    Font MyFont;
-    InitializeFont(&MyFont, "Arial", 20, TextColor);
+    while (!WindowShouldClose(&MainWindow))
+    {
 
-    printf("R: %d, G: %d, B: %d", MyFont.TextColor.R, MyFont.TextColor.G, MyFont.TextColor.B);
 
-    DestroyFont(&MyFont);
 
+    }
+
+    DestroyActiveWindow(&MainWindow);
     return 0;
 
 }

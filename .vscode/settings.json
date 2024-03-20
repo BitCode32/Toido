@@ -5,6 +5,8 @@
     "files.associations": {
         "font.h": "c",
         "color.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "bool.h": "c",
+        "window.h": "c"
     }
 }
