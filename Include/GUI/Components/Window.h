@@ -1,18 +1,17 @@
 #ifndef TOIDO_WINDOW
 #define TOIDO_WINDOW
 
-#include "../../OS.h"
+#include "Component.h"
 #include "../../Bool.h"
 
 typedef struct
 {
 
     char* Title;
-    unsigned short Width, Height;
+    Component WindowComponent;
 
     #ifdef WIN
 
-        HWND ApiWindow;
         MSG Message;
 
     #elif defined LIN

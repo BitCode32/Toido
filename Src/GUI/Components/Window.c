@@ -13,8 +13,8 @@
 int InitializeWindow(Window* NewWindow, char* Title, unsigned short Width, unsigned short Height)
 {
 
-    NewWindow->Width = Width;
-    NewWindow->Height = Height;
+    NewWindow->WindowComponent.Width = Width;
+    NewWindow->WindowComponent.Height = Height;
 
     unsigned int Length = 0;
     while (Title[Length] != '\0')
@@ -53,9 +53,9 @@ int InitializeWindow(Window* NewWindow, char* Title, unsigned short Width, unsig
 
         }
 
-        NewWindow->ApiWindow = CreateWindowExA(0, "MainWindow", NewWindow->Title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, NewWindow->Width, NewWindow->Height, NULL, NULL, GetModuleHandleA(NULL), NULL);
+        NewWindow->WindowComponent.ComponentWindow= CreateWindowExA(0, "MainWindow", NewWindow->Title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, NewWindow->WindowComponent.Width, NewWindow->WindowComponent.Height, NULL, NULL, GetModuleHandleA(NULL), NULL);
 
-        if (!NewWindow->ApiWindow)
+        if (!NewWindow->WindowComponent.ComponentWindow)
         {
 
             MessageBoxA(NULL, "Could not create window!", "Error", MB_ICONERROR);
@@ -99,7 +99,7 @@ void DisplayWindow(Window* CurrentWindow, bool Visible)
 
     #ifdef WIN
 
-        ShowWindow(CurrentWindow->ApiWindow, SW_SHOW * Visible);
+        ShowWindow(CurrentWindow->WindowComponent.ComponentWindow, SW_SHOW * Visible);
 
     #elif defined LIN
 
