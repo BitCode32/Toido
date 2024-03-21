@@ -10,6 +10,7 @@ typedef struct
 {
 
     char* Text;
+    unsigned int TextLength;
 
     unsigned int Id;
     unsigned int X, Y;

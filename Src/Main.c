@@ -13,7 +13,7 @@ int main()
     InitializeColor(&PrimaryButtonColor, 255, 0, 0);
 
     Color TextColor;
-    InitializeColor(&TextColor, 0, 0, 0);
+    InitializeColor(&TextColor, 255, 255, 255);
 
     Font MainFont;
     InitializeFont(&MainFont, "Arial", 18, TextColor);
