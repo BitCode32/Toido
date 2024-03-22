@@ -9,7 +9,7 @@
 
 #endif
 
-int InitializeButton(Button* NewButton, Component Parent, unsigned int Id, char* Text, unsigned int X, unsigned int Y, unsigned int Width, unsigned int Height, Color BackgroundColor, Font ButtonFont)
+int InitializeButton(Button* NewButton, Component Parent, unsigned long Id, char* Text, unsigned int X, unsigned int Y, unsigned int Width, unsigned int Height, Color BackgroundColor, Font ButtonFont)
 {
 
     NewButton->Id = Id;
@@ -172,7 +172,7 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
 
                 ChangeColorBrightness(&BackgroundColor, 0.8f);
 
-                ChangeColorBrightness(&TopLeftPenColor, 0.9f);
+                ChangeColorBrightness(&TopLeftPenColor, 0.7f);
                 ChangeColorBrightness(&BottomRightPenColor, 1.1f);
 
             }
@@ -183,7 +183,7 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
                     ChangeColorBrightness(&BackgroundColor, 0.9f);
 
                 ChangeColorBrightness(&TopLeftPenColor, 1.1f);
-                ChangeColorBrightness(&BottomRightPenColor, 0.9f);
+                ChangeColorBrightness(&BottomRightPenColor, 0.8f);
 
             }
 

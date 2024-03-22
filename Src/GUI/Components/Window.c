@@ -94,19 +94,6 @@ bool WindowShouldClose(Window* CurrentWindow)
 
 }
 
-void DisplayWindow(Window* CurrentWindow, bool Visible)
-{
-
-    #ifdef WIN
-
-        ShowWindow(CurrentWindow->WindowComponent.ComponentWindow, SW_SHOW * Visible);
-
-    #elif defined LIN
-
-    #endif
-
-}
-
 #ifdef WIN
 
     LRESULT CALLBACK WindowEventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPARAM LParam)

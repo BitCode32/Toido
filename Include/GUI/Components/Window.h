@@ -24,6 +24,5 @@ int InitializeWindow(Window* NewWindow, char* Title, unsigned short Width, unsig
 void DestroyActiveWindow(Window* CurrentWindow);
 
 bool WindowShouldClose(Window* CurrentWindow);
-void DisplayWindow(Window* CurrentWindow, bool Visible);
 
 #endif

@@ -26,12 +26,12 @@ int MixColor(Color* CurrentColor, Color* OtherColor, float Percentage)
 int ChangeColorBrightness(Color* CurrentColor, float Brightness)
 {
 
-    if (Brightness <= 0.0f)
+    if (Brightness < 0.0f)
         return -1;
 
-    CurrentColor->R = ((CurrentColor->R * Brightness) >= 255) ? 255 : CurrentColor->R * Brightness;
-    CurrentColor->G = ((CurrentColor->G * Brightness) >= 255) ? 255 : CurrentColor->G * Brightness;;
-    CurrentColor->B = ((CurrentColor->B * Brightness) >= 255) ? 255 : CurrentColor->B * Brightness;;
+    CurrentColor->R = ((CurrentColor->R * Brightness) > 255.0f) ? 255 : CurrentColor->R * Brightness;
+    CurrentColor->G = ((CurrentColor->G * Brightness) > 255.0f) ? 255 : CurrentColor->G * Brightness;
+    CurrentColor->B = ((CurrentColor->B * Brightness) > 255.0f) ? 255 : CurrentColor->B * Brightness;
 
     return 0;
 

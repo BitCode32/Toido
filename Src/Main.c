@@ -7,7 +7,7 @@ int main()
 
     Window MainWindow;
     InitializeWindow(&MainWindow, "Toido", 720, 480);
-    DisplayWindow(&MainWindow, true);
+    ShowComponent(&MainWindow.WindowComponent, true);
 
     Color PrimaryButtonColor;
     InitializeColor(&PrimaryButtonColor, 255, 0, 0);
