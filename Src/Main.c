@@ -1,5 +1,6 @@
 #include "../Include/GUI/Components/Window.h"
 #include "../Include/GUI/Components/Button.h"
+#include "../Include/GUI/Components/Panel.h"
 #include "../Include/Bool.h"
 
 int main()
@@ -9,17 +10,20 @@ int main()
     InitializeWindow(&MainWindow, "Toido", 720, 480);
     ShowComponent(&MainWindow.WindowComponent, true);
 
-    Color PrimaryButtonColor;
-    InitializeColor(&PrimaryButtonColor, 255, 0, 0);
+    Color PrimaryButtonColor, TextColor, BackgroundColor;
 
-    Color TextColor;
+    InitializeColor(&PrimaryButtonColor, 255, 0, 0);
     InitializeColor(&TextColor, 255, 255, 255);
+    InitializeColor(&BackgroundColor, 0, 0, 255);
 
     Font MainFont;
     InitializeFont(&MainFont, "Arial", 18, TextColor);
 
+    Panel MainPanel;
+    InitializePanel(&MainPanel, MainWindow.WindowComponent, 0, 0, 700, 400, BackgroundColor);
+
     Button TestButton;
-    InitializeButton(&TestButton, MainWindow.WindowComponent, 1, "Click Me", 10, 10, 200, 50, PrimaryButtonColor, MainFont);
+    InitializeButton(&TestButton, MainPanel.PanelComponent, 1, "Click Me", 10, 10, 200, 50, PrimaryButtonColor, MainFont);
 
     while (!WindowShouldClose(&MainWindow))
     {

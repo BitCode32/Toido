@@ -9,7 +9,7 @@
 
 #endif
 
-int InitializeButton(Button* NewButton, Component Parent, unsigned long Id, char* Text, unsigned int X, unsigned int Y, unsigned int Width, unsigned int Height, Color BackgroundColor, Font ButtonFont)
+int InitializeButton(Button* NewButton, Component Parent, unsigned int Id, char* Text, unsigned int X, unsigned int Y, unsigned int Width, unsigned int Height, Color BackgroundColor, Font ButtonFont)
 {
 
     NewButton->Id = Id;
@@ -67,7 +67,6 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
 
             Button* CurrentButton = (Button*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
             CurrentButton->Pressed = true;
-            CurrentButton->Hovering = true;
 
             SetCapture(CurrentButton->ButtonComponent.ComponentWindow);
             InvalidateRect(CurrentButton->ButtonComponent.ComponentWindow, NULL, TRUE);
@@ -112,11 +111,7 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
             {
 
                 CurrentButton->Hovering = true;
-
-                RECT buttonRect;
-                GetClientRect(EventWindow, &buttonRect);
-
-                InvalidateRect(EventWindow, &buttonRect, TRUE);
+                InvalidateRect(EventWindow, NULL, TRUE);
 
             }
 
@@ -139,14 +134,7 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
             CurrentButton->Hovering = false;
 
             if (!CurrentButton->Pressed)
-            {
-
-                RECT buttonRect;
-                GetClientRect(EventWindow, &buttonRect);
-
-                InvalidateRect(EventWindow, &buttonRect, TRUE);
-
-            }
+                InvalidateRect(EventWindow, NULL, TRUE);
 
             break;
 

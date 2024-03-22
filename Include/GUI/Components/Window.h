@@ -7,8 +7,8 @@
 typedef struct
 {
 
-    char* Title;
     Component WindowComponent;
+    char* Title;
 
     #ifdef WIN
 
