@@ -1,6 +1,7 @@
 #include "../Include/GUI/Components/Window.h"
 #include "../Include/GUI/Components/Button.h"
 #include "../Include/GUI/Components/Panel.h"
+#include "../Include/GUI/Components/Label.h"
 #include "../Include/Bool.h"
 
 int main()
@@ -24,6 +25,9 @@ int main()
 
     Button TestButton;
     InitializeButton(&TestButton, MainPanel.PanelComponent, 1, "Click Me", 10, 10, 200, 50, PrimaryButtonColor, MainFont);
+
+    Label TestLabel;
+    InitializeLabel(&TestLabel, MainPanel.PanelComponent, 2, "Testing", 0, 100, 50, 50, PrimaryButtonColor, MainFont);
 
     while (!WindowShouldClose(&MainWindow))
     {

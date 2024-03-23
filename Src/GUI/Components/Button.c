@@ -5,11 +5,11 @@
 
 #ifdef WIN
 
-    LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPARAM LParam);
+    LRESULT CALLBACK ButtonEventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPARAM LParam);
 
 #endif
 
-int InitializeButton(Button* NewButton, Component Parent, unsigned int Id, char* Text, unsigned int X, unsigned int Y, unsigned int Width, unsigned int Height, Color BackgroundColor, Font ButtonFont)
+void InitializeButton(Button* NewButton, Component Parent, unsigned int Id, char* Text, unsigned int X, unsigned int Y, unsigned int Width, unsigned int Height, Color BackgroundColor, Font ButtonFont)
 {
 
     NewButton->Id = Id;
@@ -40,14 +40,12 @@ int InitializeButton(Button* NewButton, Component Parent, unsigned int Id, char*
 
         GetClientRect(NewButton->ButtonComponent.ComponentWindow, &NewButton->ButtonRect);
 
-        NewButton->OldProc = (WNDPROC)SetWindowLongPtrA(NewButton->ButtonComponent.ComponentWindow, GWLP_WNDPROC, (LONG_PTR)EventHandler);
+        NewButton->OldProc = (WNDPROC)SetWindowLongPtrA(NewButton->ButtonComponent.ComponentWindow, GWLP_WNDPROC, (LONG_PTR)ButtonEventHandler);
 		SetWindowLongPtrA(NewButton->ButtonComponent.ComponentWindow, GWLP_USERDATA, (LONG_PTR)NewButton);
 
     #elif defined LIN
 
     #endif
-
-    return 0;
 
 }
 
@@ -58,7 +56,7 @@ void DestroyButton(Button* CurrentButton)
 
 }
 
-LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPARAM LParam)
+LRESULT CALLBACK ButtonEventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPARAM LParam)
 {
 
     switch(Message)
