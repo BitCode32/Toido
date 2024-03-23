@@ -24,6 +24,7 @@ typedef struct
     #ifdef WIN
 
         WNDPROC OldProc;
+        RECT ButtonRect;
 
     #elif defined LIN
 

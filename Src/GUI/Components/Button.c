@@ -38,6 +38,8 @@ int InitializeButton(Button* NewButton, Component Parent, unsigned int Id, char*
         NewButton->ButtonComponent.ComponentWindow = CreateWindowA("Button", NewButton->Text, WS_CHILD | WS_VISIBLE | BS_OWNERDRAW, NewButton->X, NewButton->Y, NewButton->ButtonComponent.Width, NewButton->ButtonComponent.Height, Parent.ComponentWindow, (HMENU)NewButton->Id, NULL, NULL);
         SendMessageA(NewButton->ButtonComponent.ComponentWindow, WM_SETFONT, (WPARAM)NewButton->ButtonFont.ApiFont, 0);
 
+        GetClientRect(NewButton->ButtonComponent.ComponentWindow, &NewButton->ButtonRect);
+
         NewButton->OldProc = (WNDPROC)SetWindowLongPtrA(NewButton->ButtonComponent.ComponentWindow, GWLP_WNDPROC, (LONG_PTR)EventHandler);
 		SetWindowLongPtrA(NewButton->ButtonComponent.ComponentWindow, GWLP_USERDATA, (LONG_PTR)NewButton);
 
@@ -62,6 +64,7 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
     switch(Message)
     {
 
+        case WM_LBUTTONDBLCLK:
         case WM_LBUTTONDOWN:
         {
 
@@ -69,7 +72,8 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
             CurrentButton->Pressed = true;
 
             SetCapture(CurrentButton->ButtonComponent.ComponentWindow);
-            InvalidateRect(CurrentButton->ButtonComponent.ComponentWindow, NULL, TRUE);
+            InvalidateRect(CurrentButton->ButtonComponent.ComponentWindow, &CurrentButton->ButtonRect, FALSE);
+            SetCursor(LoadCursorA(NULL, IDC_HAND));
 
             break;
 
@@ -81,23 +85,15 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
             Button* CurrentButton = (Button*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
             CurrentButton->Pressed = false;
 
-            RECT ButtonRect;
-            GetWindowRect(EventWindow, &ButtonRect);
+            ReleaseCapture();
 
             POINT CursorPosition;
             GetCursorPos(&CursorPosition);
 
-            if (PtInRect(&ButtonRect, CursorPosition))
-            {
-
-                CurrentButton->Hovering = true;
+            if (PtInRect(&CurrentButton->ButtonRect, CursorPosition))
                 SendMessageA(GetParent(EventWindow), WM_COMMAND, MAKEWORD(CurrentButton->Id, BN_CLICKED), 0);
 
-            }
-
-            ReleaseCapture();
-            InvalidateRect(EventWindow, NULL, TRUE);
-
+            InvalidateRect(EventWindow, &CurrentButton->ButtonRect, FALSE);
             break;
 
         }
@@ -111,9 +107,11 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
             {
 
                 CurrentButton->Hovering = true;
-                InvalidateRect(EventWindow, NULL, TRUE);
+                InvalidateRect(EventWindow, &CurrentButton->ButtonRect, FALSE);
 
             }
+
+            SetCursor(LoadCursorA(NULL, IDC_HAND));
 
             TRACKMOUSEEVENT MouseEvent;
 
@@ -134,8 +132,13 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
             CurrentButton->Hovering = false;
 
             if (!CurrentButton->Pressed)
-                InvalidateRect(EventWindow, NULL, TRUE);
+            {
 
+                InvalidateRect(EventWindow, &CurrentButton->ButtonRect, FALSE);
+                SetCursor(LoadCursorA(NULL, IDC_ARROW));
+
+            }
+            
             break;
 
         }
@@ -147,9 +150,6 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
 
             PAINTSTRUCT ButtonPaintStruct;
             HDC DeviceContext = BeginPaint(EventWindow, &ButtonPaintStruct);
-
-            RECT ButtonRect;
-            GetClientRect(EventWindow, &ButtonRect);
 
             Color BackgroundColor = CurrentButton->BackgroundColor;
             Color TopLeftPenColor = CurrentButton->BackgroundColor;
@@ -178,7 +178,7 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
             HBRUSH BackgroundBrush = CreateSolidBrush(RGB(BackgroundColor.R, BackgroundColor.G, BackgroundColor.B));
             HBRUSH PreviousBrush = (HBRUSH)SelectObject(DeviceContext, BackgroundBrush);
 
-            Rectangle(DeviceContext, ButtonRect.left, ButtonRect.top, ButtonRect.right, ButtonRect.bottom);
+            Rectangle(DeviceContext, CurrentButton->ButtonRect.left, CurrentButton->ButtonRect.top, CurrentButton->ButtonRect.right, CurrentButton->ButtonRect.bottom);
 
             SelectObject(DeviceContext, PreviousBrush);
             DeleteObject(BackgroundBrush);
@@ -188,14 +188,14 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
 
             HPEN PreviousePen = (HPEN)SelectObject(DeviceContext, TopLeftPen);
 
-            MoveToEx(DeviceContext, ButtonRect.left, ButtonRect.bottom, NULL);
-            LineTo(DeviceContext, ButtonRect.left, ButtonRect.top - 1);
-            LineTo(DeviceContext, ButtonRect.right - 1, ButtonRect.top);            
+            MoveToEx(DeviceContext, CurrentButton->ButtonRect.left, CurrentButton->ButtonRect.bottom, NULL);
+            LineTo(DeviceContext, CurrentButton->ButtonRect.left, CurrentButton->ButtonRect.top - 1);
+            LineTo(DeviceContext, CurrentButton->ButtonRect.right - 1, CurrentButton->ButtonRect.top);            
 
             SelectObject(DeviceContext, BottomRightPen);
 
-            LineTo(DeviceContext, ButtonRect.right - 1, ButtonRect.bottom);
-            LineTo(DeviceContext, ButtonRect.left - 1, ButtonRect.bottom);
+            LineTo(DeviceContext, CurrentButton->ButtonRect.right - 1, CurrentButton->ButtonRect.bottom);
+            LineTo(DeviceContext, CurrentButton->ButtonRect.left - 1, CurrentButton->ButtonRect.bottom);
 
             SelectObject(DeviceContext, PreviousePen);
 
@@ -206,7 +206,7 @@ LRESULT CALLBACK EventHandler(HWND EventWindow, UINT Message, WPARAM WParam, LPA
 
             SetBkColor(DeviceContext, RGB(BackgroundColor.R, BackgroundColor.G, BackgroundColor.B));
             SetTextColor(DeviceContext, RGB(CurrentButton->ButtonFont.TextColor.R, CurrentButton->ButtonFont.TextColor.G, CurrentButton->ButtonFont.TextColor.B));
-            DrawTextA(DeviceContext, CurrentButton->Text, CurrentButton->TextLength, &ButtonRect, DT_NOPREFIX | DT_NOCLIP | DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+            DrawTextA(DeviceContext, CurrentButton->Text, CurrentButton->TextLength, &CurrentButton->ButtonRect, DT_NOPREFIX | DT_NOCLIP | DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
             SelectObject(DeviceContext, PreviousFont);
 
