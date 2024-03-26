@@ -2,12 +2,38 @@
 #include "../Include/GUI/Components/Button.h"
 #include "../Include/GUI/Components/Panel.h"
 #include "../Include/GUI/Components/Label.h"
+#include "../Include/Events/Event.h"
+#include "../Include/Events/ApplicationEvent.h"
 #include "../Include/Bool.h"
+
+void EventAppHandler(Event* e)
+{
+
+    if (e->Type == ApplicationComponent)
+    {
+
+        ComponentEvent* ApplicationComponentEvent = (ComponentEvent*)e;
+        switch (ApplicationComponentEvent->ComponentId)
+        {
+
+            case 1:
+
+                if (ApplicationComponentEvent->ComponentEvent == BN_CLICKED)
+                    MessageBoxA(NULL, "Test", "Test", NULL);
+
+                break;
+
+        }
+
+    }
+
+}
 
 int main()
 {
 
     Window MainWindow;
+    MainWindow.EventHandler = EventAppHandler;
     InitializeWindow(&MainWindow, "Toido", 720, 480);
     ShowComponent(&MainWindow.WindowComponent, true);
 

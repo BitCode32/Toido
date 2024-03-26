@@ -3,12 +3,15 @@
 
 #include "Component.h"
 #include "../../Bool.h"
+#include "../../Events/Event.h"
 
 typedef struct
 {
 
     Component WindowComponent;
     char* Title;
+
+    void (*EventHandler)(Event* e);
 
     #ifdef WIN
 

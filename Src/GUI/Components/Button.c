@@ -85,10 +85,13 @@ LRESULT CALLBACK ButtonEventHandler(HWND EventWindow, UINT Message, WPARAM WPara
 
             ReleaseCapture();
 
+            RECT ButtonRect;
+            GetWindowRect(EventWindow, &ButtonRect);
+
             POINT CursorPosition;
             GetCursorPos(&CursorPosition);
 
-            if (PtInRect(&CurrentButton->ButtonRect, CursorPosition))
+            if (PtInRect(&ButtonRect, CursorPosition))
                 SendMessageA(GetParent(EventWindow), WM_COMMAND, MAKEWORD(CurrentButton->Id, BN_CLICKED), 0);
 
             InvalidateRect(EventWindow, &CurrentButton->ButtonRect, FALSE);

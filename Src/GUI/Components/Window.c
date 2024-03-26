@@ -1,5 +1,7 @@
 #include "../../../Include/GUI/Components/Window.h"
 
+#include "../../../Include/Events/ApplicationEvent.h"
+
 #include <stdlib.h>
 #include <stddef.h>
 
@@ -63,6 +65,8 @@ int InitializeWindow(Window* NewWindow, char* Title, unsigned short Width, unsig
 
         }
 
+        SetWindowLongPtrA(NewWindow->WindowComponent.ComponentWindow, GWLP_USERDATA, (LONG_PTR)NewWindow);
+
     #elif defined LIN
 
     #endif
@@ -101,6 +105,110 @@ bool WindowShouldClose(Window* CurrentWindow)
 
         switch(Message)
         {
+
+            case WM_COMMAND:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    ComponentEvent ApplicationEvent;
+                    InitializeComponentEvent(&ApplicationEvent, LOWORD(WParam), HIWORD(WParam));
+
+                    CurrentWindow->EventHandler((Event*)&ApplicationEvent);
+
+                }
+
+                break;
+
+            }
+
+            case WM_SIZE:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    WindowResizeEvent ApplicationEvent;
+                    InitializeWindowResizeEvent(&ApplicationEvent, CurrentWindow->WindowComponent.Width, CurrentWindow->WindowComponent.Height);
+
+                    CurrentWindow->EventHandler((Event*)&ApplicationEvent);
+
+                }
+
+                CurrentWindow->WindowComponent.Width = LOWORD(LParam);
+                CurrentWindow->WindowComponent.Height = HIWORD(LParam);
+
+                break;
+
+            }
+
+            case WM_SETFOCUS:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    WindowFocusEvent ApplicationEvent;
+                    InitializeWindowFocusEvent(&ApplicationEvent);
+
+                    CurrentWindow->EventHandler((Event*)&ApplicationEvent);
+
+                }
+
+                SetFocus(EventWindow);
+
+                break;
+
+            }
+
+            case WM_KILLFOCUS:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    WindowLostFocusEvent ApplicationEvent;
+                    InitializeWindowLostFocusEvent(&ApplicationEvent);
+
+                    CurrentWindow->EventHandler((Event*)&ApplicationEvent);
+
+                }
+
+                SetFocus(NULL);
+
+                break;
+
+            }
+
+            case WM_CLOSE:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    WindowCloseEvent ApplicationEvent;
+                    InitializeWindowCloseEvent(&ApplicationEvent);
+
+                    CurrentWindow->EventHandler((Event*)&ApplicationEvent);
+
+                }
+
+                DestroyWindow(EventWindow);
+
+                break;
+
+            }
 
             case WM_DESTROY:
                 PostQuitMessage(0);

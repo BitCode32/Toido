@@ -66,6 +66,14 @@ int InitializePanel(Panel* NewPanel, Component Parent, unsigned int X, unsigned 
         switch (Message)
         {
 
+            case WM_COMMAND:
+            {
+
+                SendMessageA(GetParent(EventWindow), WM_COMMAND, MAKEWORD(LOWORD(WParam), HIWORD(WParam)), 0);
+                break;
+
+            }
+
             case WM_ERASEBKGND:
             {
 
