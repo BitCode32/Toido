@@ -1,6 +1,7 @@
 #include "../../../Include/GUI/Components/Window.h"
 
 #include "../../../Include/Events/ApplicationEvent.h"
+#include "../../../Include/Events/KeyEvent.h"
 
 #include <stdlib.h>
 #include <stddef.h>
@@ -118,6 +119,44 @@ bool WindowShouldClose(Window* CurrentWindow)
                     InitializeComponentEvent(&ApplicationEvent, LOWORD(WParam), HIWORD(WParam));
 
                     CurrentWindow->EventHandler((Event*)&ApplicationEvent);
+
+                }
+
+                break;
+
+            }
+
+            case WM_KEYDOWN:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    KeyPressedEvent KeyEvent;
+                    InitializeKeyPressedEvent(&KeyEvent, WParam);
+
+                    CurrentWindow->EventHandler((Event*)&KeyEvent);
+
+                }
+
+                break;
+
+            }
+
+            case WM_KEYUP:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    KeyReleasedEvent KeyEvent;
+                    InitializeKeyReleasedEvent(&KeyEvent, WParam);
+
+                    CurrentWindow->EventHandler((Event*)&KeyEvent);
 
                 }
 

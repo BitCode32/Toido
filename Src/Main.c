@@ -4,12 +4,22 @@
 #include "../Include/GUI/Components/Label.h"
 #include "../Include/Events/Event.h"
 #include "../Include/Events/ApplicationEvent.h"
+#include "../Include/Events/KeyEvent.h"
 #include "../Include/Bool.h"
 
 void EventAppHandler(Event* e)
 {
 
-    if (e->Type == ApplicationComponent)
+    if (e->Type == EventTypeKeyReleased)
+    {
+
+        KeyReleasedEvent* KeyEvent = (KeyReleasedEvent*)e;
+        if (KeyEvent->KeyReleased == KC_W)
+            MessageBoxA(NULL, "Pressed", "You pressed W", NULL);
+
+    }
+
+    if (e->Type == EventTypeApplicationComponent)
     {
 
         ComponentEvent* ApplicationComponentEvent = (ComponentEvent*)e;

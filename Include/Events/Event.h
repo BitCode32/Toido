@@ -4,13 +4,13 @@
 typedef enum 
 {
 
-    WindowResize, WindowClose, WindowFocus, WindowLostFocus, ApplicationComponent,
-    KeyPressed, KeyReleased,
-    MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+    EventTypeWindowResize, EventTypeWindowClose, EventTypeWindowFocus, EventTypeWindowLostFocus, EventTypeApplicationComponent,
+    EventTypeKeyPressed, EventTypeKeyReleased,
+    EventTypeMouseButtonPressed, EventTypeMouseButtonReleased, EventTypeMouseMoved, EventTypeMouseScrolled
 
 } EventType;
 
-typedef enum
+typedef enum 
 {
 
     None = 0,

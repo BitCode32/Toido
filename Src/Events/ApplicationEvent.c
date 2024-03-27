@@ -3,7 +3,7 @@
 void InitializeWindowResizeEvent(WindowResizeEvent* NewResizeEvent, unsigned int Width, unsigned int Height)
 {
 
-    NewResizeEvent->ApplicationEvent.Type = WindowResize;
+    NewResizeEvent->ApplicationEvent.Type = EventTypeWindowResize;
     NewResizeEvent->ApplicationEvent.Category = EventCategoryApplication;
 
     NewResizeEvent->Width = Width;
@@ -14,7 +14,7 @@ void InitializeWindowResizeEvent(WindowResizeEvent* NewResizeEvent, unsigned int
 void InitializeWindowCloseEvent(WindowCloseEvent* NewCloseEvent)
 {
 
-    NewCloseEvent->ApplicationEvent.Type = WindowClose;
+    NewCloseEvent->ApplicationEvent.Type = EventTypeWindowClose;
     NewCloseEvent->ApplicationEvent.Category = EventCategoryApplication;
 
 }
@@ -22,7 +22,7 @@ void InitializeWindowCloseEvent(WindowCloseEvent* NewCloseEvent)
 void InitializeWindowFocusEvent(WindowFocusEvent* NewFocusEvent)
 {
 
-    NewFocusEvent->ApplicationEvent.Type = WindowFocus;
+    NewFocusEvent->ApplicationEvent.Type = EventTypeWindowFocus;
     NewFocusEvent->ApplicationEvent.Category = EventCategoryApplication;
 
 }
@@ -30,7 +30,7 @@ void InitializeWindowFocusEvent(WindowFocusEvent* NewFocusEvent)
 void InitializeWindowLostFocusEvent(WindowLostFocusEvent* NewLostFocusEvent)
 {
 
-    NewLostFocusEvent->ApplicationEvent.Type = WindowLostFocus;
+    NewLostFocusEvent->ApplicationEvent.Type = EventTypeWindowLostFocus;
     NewLostFocusEvent->ApplicationEvent.Category = EventCategoryApplication;
 
 }
@@ -38,7 +38,7 @@ void InitializeWindowLostFocusEvent(WindowLostFocusEvent* NewLostFocusEvent)
 void InitializeComponentEvent(ComponentEvent* NewComponentEvent, unsigned int ComponentId, unsigned int ComponentEvent)
 {
 
-    NewComponentEvent->ApplicationEvent.Type = ApplicationComponent;
+    NewComponentEvent->ApplicationEvent.Type = EventTypeApplicationComponent;
     NewComponentEvent->ApplicationEvent.Category = EventCategoryApplication;
 
     NewComponentEvent->ComponentId = ComponentId;
