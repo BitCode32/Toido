@@ -5,6 +5,7 @@
 #include "../Include/Events/Event.h"
 #include "../Include/Events/ApplicationEvent.h"
 #include "../Include/Events/KeyEvent.h"
+#include "../Include/Events/MouseEvent.h"
 #include "../Include/Bool.h"
 
 void EventAppHandler(Event* e)
@@ -15,7 +16,16 @@ void EventAppHandler(Event* e)
 
         KeyReleasedEvent* KeyEvent = (KeyReleasedEvent*)e;
         if (KeyEvent->KeyReleased == KC_W)
-            MessageBoxA(NULL, "Pressed", "You pressed W", NULL);
+            MessageBoxA(NULL, "You pressed W", "Pressed", NULL);
+
+    }
+
+    if (e->Type == EventTypeMouseButtonPressed)
+    {            
+
+        MouseButtonPressedEvent* MouseEvent = (MouseButtonPressedEvent*)e;
+        if (MouseEvent->MouseButtonPressed == MC_LEFT)
+            MessageBoxA(NULL, "You pressed left mouse button", "Pressed", NULL);
 
     }
 

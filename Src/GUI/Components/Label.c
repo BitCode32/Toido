@@ -46,6 +46,17 @@ LRESULT CALLBACK LabelEventHandler(HWND EventWindow, UINT Message, WPARAM WParam
     switch (Message)
     {
     
+        case WM_LBUTTONDOWN:
+        case WM_MBUTTONDOWN:
+        case WM_RBUTTONDOWN:
+        case WM_XBUTTONDOWN:
+        case WM_LBUTTONUP:
+        case WM_MBUTTONUP:
+        case WM_RBUTTONUP:
+        case WM_XBUTTONUP:
+            SendMessageA(GetParent(EventWindow), Message, WParam, LParam);
+            break;        
+
         case WM_PAINT:
         {
 

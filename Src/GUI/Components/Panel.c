@@ -66,13 +66,20 @@ int InitializePanel(Panel* NewPanel, Component Parent, unsigned int X, unsigned 
         switch (Message)
         {
 
+            case WM_LBUTTONDOWN:
+            case WM_MBUTTONDOWN:
+            case WM_RBUTTONDOWN:
+            case WM_XBUTTONDOWN:
+            case WM_LBUTTONUP:
+            case WM_MBUTTONUP:
+            case WM_RBUTTONUP:
+            case WM_XBUTTONUP:
+                SendMessageA(GetParent(EventWindow), Message, WParam, LParam);
+                break; 
+
             case WM_COMMAND:
-            {
-
-                SendMessageA(GetParent(EventWindow), WM_COMMAND, MAKEWORD(LOWORD(WParam), HIWORD(WParam)), 0);
+                SendMessageA(GetParent(EventWindow), WM_COMMAND, WParam, 0);
                 break;
-
-            }
 
             case WM_ERASEBKGND:
             {

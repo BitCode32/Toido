@@ -2,6 +2,7 @@
 
 #include "../../../Include/Events/ApplicationEvent.h"
 #include "../../../Include/Events/KeyEvent.h"
+#include "../../../Include/Events/MouseEvent.h"
 
 #include <stdlib.h>
 #include <stddef.h>
@@ -157,6 +158,88 @@ bool WindowShouldClose(Window* CurrentWindow)
                     InitializeKeyReleasedEvent(&KeyEvent, WParam);
 
                     CurrentWindow->EventHandler((Event*)&KeyEvent);
+
+                }
+
+                break;
+
+            }
+
+            case WM_MOUSEMOVE:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    MouseMovedEvent MouseEvent;
+                    InitializeMouseMovedEvent(&MouseEvent, LOWORD(LParam), HIWORD(LParam));
+
+                    CurrentWindow->EventHandler((Event*)&MouseEvent);
+
+                }
+
+                break;
+
+            }
+
+            case WM_MOUSEHWHEEL:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    MouseScrolledEvent MouseEvent;
+                    InitializeMouseScrolledEvent(&MouseEvent, HIWORD(WParam));
+
+                    CurrentWindow->EventHandler((Event*)&MouseEvent);
+
+                }
+
+                break;
+
+            }
+
+            case WM_LBUTTONDOWN:
+            case WM_MBUTTONDOWN:
+            case WM_RBUTTONDOWN:
+            case WM_XBUTTONDOWN:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    MouseButtonPressedEvent MouseEvent;
+                    InitializeMouseButtonPressedEvent(&MouseEvent, WParam);
+
+                    CurrentWindow->EventHandler((Event*)&MouseEvent);
+
+                }
+
+                break;
+
+            }
+
+            case WM_LBUTTONUP:
+            case WM_MBUTTONUP:
+            case WM_RBUTTONUP:
+            case WM_XBUTTONUP:
+            {
+
+                Window* CurrentWindow = (Window*)GetWindowLongPtrA(EventWindow, GWLP_USERDATA);
+
+                if (CurrentWindow->EventHandler != NULL)
+                {
+
+                    MouseButtonReleasedEvent MouseEvent;
+                    InitializeMouseButtonReleasedEvent(&MouseEvent, WParam);
+
+                    CurrentWindow->EventHandler((Event*)&MouseEvent);
 
                 }
 
